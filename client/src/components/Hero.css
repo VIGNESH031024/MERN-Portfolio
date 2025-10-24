@@ -1,0 +1,39 @@
+/* Blink animation for name */
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+
+/* .blink-text {
+  animation: blink 5s ;
+} */
+
+/* Floating animation for profile picture */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
+/* .floating-img {
+  animation: float 4s ;
+} */
+
+/* Fade-in + floating for text block */
+@keyframes fadeFloat {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.hero-text {
+  animation: fadeFloat 3s ease-out forwards;
+}
+
+/* Half-circle border */
+.half-circle-border {
+  position: relative;
+  border-top: 5px solid #06b6d4; /* smaller/thinner border */
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 20px 60px rgba(0, 255, 255, 0.5);
+}
+
