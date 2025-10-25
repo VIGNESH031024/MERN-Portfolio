@@ -1,12 +1,16 @@
 import express from "express";
 import { getSkills, addSkill, updateSkill, deleteSkill } from "../controllers/skillController.js";
 import { protect } from "../middleware/authMiddleware.js";
+import { upload } from "../config/cloudinary.js"; // multer + Cloudinary
 
 const router = express.Router();
 
-router.get("/", getSkills);           // Public
-router.post("/", addSkill);  // Admin only
-router.put("/:id", updateSkill); // Admin only
-router.delete("/:id", deleteSkill); // Admin only
+// Public route
+router.get("/", getSkills);
+
+// Admin routes
+router.post("/", upload.single("logo"), addSkill);
+router.put("/:id", upload.single("logo"), updateSkill);
+router.delete("/:id", deleteSkill);
 
 export default router;

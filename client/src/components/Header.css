@@ -1,0 +1,62 @@
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Header styling */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #00ffff;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.nav ul {
+  display: flex;
+  list-style: none;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav ul li a {
+  color: #ccc;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.nav ul li a:hover {
+  color: #00ffff;
+  background-color: #222;
+  transform: scale(1.05);
+}
+
+/* Make Home active on page load */
+.nav ul li a.active-on-load {
+  color: #00ffff;
+  background-color: #222;
+  transform: scale(1.05);
+}

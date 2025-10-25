@@ -1,98 +1,54 @@
-import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
-import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
-import './Projects.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
-  const scrollRef = useRef(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-
-  const cardWidth = 384 + 128; // Card width + gap
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/api/projects')
-      .then(res => setProjects(res.data))
-      .catch(err => console.log(err));
+      .get("http://localhost:5000/api/projects")
+      .then((res) => setProjects(res.data))
+      .catch((err) => console.log(err));
   }, []);
-
-  // Check scroll position
-  const checkScroll = () => {
-    const el = scrollRef.current;
-    if (el) {
-      setCanScrollLeft(el.scrollLeft > 0);
-      setCanScrollRight(el.scrollLeft + el.offsetWidth < el.scrollWidth);
-    }
-  };
-
-  const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({
-        left: -cardWidth,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({
-        left: cardWidth,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  // Ensure arrows are correct after render and projects load
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    // Initial check after a short delay to ensure container width is correct
-    const timeout = setTimeout(checkScroll, 100);
-
-    // Listen to scroll
-    el.addEventListener('scroll', checkScroll);
-
-    return () => {
-      el.removeEventListener('scroll', checkScroll);
-      clearTimeout(timeout);
-    };
-  }, [projects]);
 
   return (
     <section id="projects" className="py-20 bg-gray-800 text-white relative">
-      <div className="max-w-6xl mx-auto relative">
-        <h2 className="text-4xl font-bold text-cyan-400 mb-10 text-center">Projects</h2>
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-4xl font-bold text-cyan-400 mb-10 text-center">
+          Projects
+        </h2>
 
-        {/* Scroll container */}
-        <div
-          className="flex items-stretch overflow-x-auto gap-[5rem] scroll-smooth scrollbar-hide hover:scrollbar-auto pb-8"
-          ref={scrollRef}
-        >
-          {projects.map(project => (
+        {/* 2-column grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {projects.map((project) => (
             <div
               key={project._id}
-              className="relative group bg-gray-900 rounded-2xl shadow-lg flex-shrink-0 w-96 flex flex-col overflow-hidden"
+              className="relative group bg-gray-900 rounded-2xl shadow-lg overflow-hidden"
             >
-              {project.image && (
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-47 object-cover"
-                />
-              )}
+              {/* Project Image */}
+            {/* Project Image */}
+{project.image && (
+  <div className="relative">
+    <img
+      src={project.image}
+      alt={project.title}
+      className="w-full h-[250px] object-cover cursor-pointer" // increased height by 25%
+      onClick={() => setSelectedImage(project.image)}
+    />
+    {/* Hover overlay */}
+    <div className="absolute top-0 left-0 w-full h-[75%] bg-black bg-opacity-80 -translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex items-center justify-center p-4 text-gray-200 text-center">
+      <p>{project.description}</p>
+    </div>
+  </div>
+)}
 
-              {/* Overlay */}
-              <div className="absolute top-0 left-0 w-full h-[70%] bg-black bg-opacity-80 -translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 flex items-center justify-center p-4 text-gray-200 text-center">
-                <p>{project.description}</p>
-              </div>
 
               {/* Bottom section */}
-              <div className="p-4 mt-48 flex flex-col">
-                <h3 className="text-xl font-semibold text-cyan-400">{project.title}</h3>
+              <div className="p-4 flex flex-col">
+                <h3 className="text-xl font-semibold text-cyan-400">
+                  {project.title}
+                </h3>
 
                 {project.skillsUsed && project.skillsUsed.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-2">
@@ -107,7 +63,7 @@ const Projects = () => {
                   </div>
                 )}
 
-                <div className="mt-4 flex gap-3">
+                <div className="mt-4 flex gap-3 flex-wrap">
                   {project.githubLink && (
                     <a
                       href={project.githubLink}
@@ -134,24 +90,18 @@ const Projects = () => {
           ))}
         </div>
 
-        {/* Left Arrow */}
-        {canScrollLeft && (
-          <button
-            onClick={scrollLeft}
-            className="absolute left-[-1.5rem] top-1/2 transform -translate-y-1/2 z-50 bg-cyan-500 bg-opacity-50 text-white p-4 rounded-full shadow-lg hover:bg-opacity-80 transition-colors duration-300"
+        {/* Popup Modal for Image */}
+        {selectedImage && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999]"
+            onClick={() => setSelectedImage(null)}
           >
-            <FaArrowLeft size={20} />
-          </button>
-        )}
-
-        {/* Right Arrow */}
-        {canScrollRight && (
-          <button
-            onClick={scrollRight}
-            className="absolute right-[-1.5rem] top-1/2 transform -translate-y-1/2 z-50 bg-cyan-500 bg-opacity-50 text-white p-4 rounded-full shadow-lg hover:bg-opacity-80 transition-colors duration-300"
-          >
-            <FaArrowRight size={20} />
-          </button>
+            <img
+              src={selectedImage}
+              alt="Full project"
+              className="max-w-4xl max-h-[80vh] rounded-lg shadow-2xl border-4 border-cyan-400 object-contain"
+            />
+          </div>
         )}
       </div>
     </section>

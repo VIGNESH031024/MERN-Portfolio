@@ -31,7 +31,7 @@
 /* Half-circle border */
 .half-circle-border {
   position: relative;
-  border-top: 5px solid #06b6d4; /* smaller/thinner border */
+  border-top: 4px solid #06b6d4; /* smaller/thinner border */
   border-radius: 50%;
   display: inline-block;
   box-shadow: 0 20px 60px rgba(0, 255, 255, 0.5);

@@ -10,42 +10,53 @@ export const getSkills = async (req, res) => {
   }
 };
 
-// Add a new skill
+// Add new skill (with logo upload)
 export const addSkill = async (req, res) => {
   try {
-    const { name, category, level, logo } = req.body; // include logo
-    const skill = await Skill.create({ name, category, level, logo });
+    const { name, category, level } = req.body;
+    const logo = req.file?.path; // Cloudinary URL
+
+    const skill = await Skill.create({
+      name,
+      category,
+      level,
+      logo
+    });
+
     res.json(skill);
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
 
-// Update a skill
+// Update skill (with optional logo update)
 export const updateSkill = async (req, res) => {
   try {
-    const { name, category, level, logo } = req.body; // include logo
+    const { name, category, level } = req.body;
+    const logo = req.file?.path;
+
     const skill = await Skill.findById(req.params.id);
     if (!skill) return res.status(404).json({ message: "Skill not found" });
 
-    skill.name = name;
-    skill.category = category;
-    skill.level = level;
-    skill.logo = logo; // update logo
-    await skill.save();
+    skill.name = name || skill.name;
+    skill.category = category || skill.category;
+    skill.level = level || skill.level;
+    if (logo) skill.logo = logo;
 
+    await skill.save();
     res.json(skill);
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
 
-// Delete a skill
+// Delete skill
 export const deleteSkill = async (req, res) => {
   try {
-    const skill = await Skill.findByIdAndDelete(req.params.id);
+    const skill = await Skill.findById(req.params.id);
     if (!skill) return res.status(404).json({ message: "Skill not found" });
 
+    await skill.deleteOne();
     res.json({ message: "Skill deleted" });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });

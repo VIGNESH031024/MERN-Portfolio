@@ -45,7 +45,7 @@ const Contact = () => {
   };
 
   return (
-    <section className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center py-16">
+    <section id ='contact' className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center py-16">
       <h1 className="text-5xl font-bold text-cyan-400 mb-12">Contact Me</h1>
 
       <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 px-6">

@@ -13,12 +13,11 @@ export const getCertifications = async (req, res) => {
 // Add a new certification
 export const addCertification = async (req, res) => {
   try {
-    const { name, image, issuer, date, description } = req.body;
+    const image = req.file?.path; // multer + Cloudinary file path
 
-    // Validation check
-    if (!name || !image) {
-      return res.status(400).json({ message: "Name and image are required." });
-    }
+    if (!image) return res.status(400).json({ message: "Image is required" });
+
+    const { name, issuer, date, description } = req.body;
 
     const certification = await Certification.create({
       name,
@@ -28,7 +27,7 @@ export const addCertification = async (req, res) => {
       description,
     });
 
-    res.status(201).json(certification);
+    res.json(certification);
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
@@ -37,18 +36,18 @@ export const addCertification = async (req, res) => {
 // Update a certification
 export const updateCertification = async (req, res) => {
   try {
-    const { name, image, issuer, date, description } = req.body;
-
     const certification = await Certification.findById(req.params.id);
-    if (!certification)
-      return res.status(404).json({ message: "Certification not found" });
+    if (!certification) return res.status(404).json({ message: "Certification not found" });
 
-    // Update only provided fields
-    if (name !== undefined) certification.name = name;
-    if (image !== undefined) certification.image = image;
-    if (issuer !== undefined) certification.issuer = issuer;
-    if (date !== undefined) certification.date = date;
-    if (description !== undefined) certification.description = description;
+    const image = req.file?.path; // optional new file
+    const { name, issuer, date, description } = req.body;
+
+    if (name) certification.name = name;
+       if (image) certification.image = image;
+    if (issuer) certification.issuer = issuer;
+    if (date) certification.date = date;
+    if (description) certification.description = description;
+ 
 
     await certification.save();
     res.json(certification);
@@ -61,11 +60,10 @@ export const updateCertification = async (req, res) => {
 export const deleteCertification = async (req, res) => {
   try {
     const certification = await Certification.findById(req.params.id);
-    if (!certification)
-      return res.status(404).json({ message: "Certification not found" });
+    if (!certification) return res.status(404).json({ message: "Certification not found" });
 
     await certification.deleteOne();
-    res.json({ message: "Certification deleted successfully" });
+    res.json({ message: "Certification deleted" });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }

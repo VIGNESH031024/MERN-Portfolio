@@ -1,10 +1,14 @@
 import express from "express";
 import { getAbout, updateAbout } from "../controllers/aboutController.js";
 import { protect } from "../middleware/authMiddleware.js";
+import { upload } from "../config/cloudinary.js"; // your multer + Cloudinary setup
 
 const router = express.Router();
 
-router.get("/", getAbout);          // Public
-router.put("/", updateAbout);  // Admin only
+// Public route
+router.get("/", getAbout);
+
+// Admin-only route with file upload
+router.put("/", upload.single("image"), updateAbout);
 
 export default router;

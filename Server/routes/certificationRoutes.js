@@ -1,12 +1,21 @@
 import express from "express";
-import { getCertifications, addCertification, updateCertification, deleteCertification } from "../controllers/certificationController.js";
+import {
+  getCertifications,
+  addCertification,
+  updateCertification,
+  deleteCertification
+} from "../controllers/certificationController.js";
 import { protect } from "../middleware/authMiddleware.js";
+import { upload } from "../config/cloudinary.js"; // multer + Cloudinary
 
 const router = express.Router();
 
-router.get("/", getCertifications);            // Public
-router.post("/", addCertification);  // Admin only
-router.put("/:id", updateCertification); // Admin only
-router.delete("/:id", deleteCertification); // Admin only
+// Public route
+router.get("/", getCertifications);
+
+// Admin routes
+router.post("/", upload.single("image"), addCertification);
+router.put("/:id", upload.single("image"), updateCertification);
+router.delete("/:id", deleteCertification);
 
 export default router;
