@@ -25,16 +25,29 @@ const CertificationsPage = () => {
             className="flex flex-col items-center justify-center text-center cursor-pointer"
             onClick={() => setModalImage(cert.image)}
           >
-            {/* Bigger image */}
-            <img
-              src={cert.image}
-              alt={cert.name}
-              className="w-96 h-96 md:w-96 md:h-96 object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
-            />
+            {/* Image with hover description */}
+            <div className="relative w-96 h-96 md:w-96 md:h-96 rounded-lg overflow-hidden shadow-lg group">
+              <img
+                src={cert.image}
+                alt={cert.name}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+
+              {/* Hover overlay for description */}
+              {cert.description && (
+                <div
+                  className="absolute top-0 left-0 w-full h-[70%] bg-black bg-opacity-70 
+                  flex items-center justify-center text-center px-4
+                  -translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100
+                  transition-all duration-700 ease-out"
+                >
+                  <p className="text-gray-200 text-lg">{cert.description}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Static info below */}
             <p className="mt-4 text-lg text-gray-300 font-semibold">{cert.name}</p>
-            {cert.issuer && (
-              <p className="text-sm text-gray-400">{cert.issuer}</p>
-            )}
             {cert.date && (
               <p className="text-sm text-gray-400">{cert.date}</p>
             )}
@@ -42,7 +55,7 @@ const CertificationsPage = () => {
         ))}
       </div>
 
-      {/* Modal */}
+      {/* Modal for full image view */}
       {modalImage && (
         <div
           className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"

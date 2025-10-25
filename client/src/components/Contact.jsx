@@ -1,69 +1,139 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaLinkedin } from "react-icons/fa";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+  const [contactInfo, setContactInfo] = useState({
+    email: "",
+    phone: "",
+    address: "",
+    linkedin: "",
   });
-  const [status, setStatus] = useState('');
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/contact")
+      .then((res) => setContactInfo(res.data))
+      .catch((err) => console.error("Error fetching contact info:", err));
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post('http://localhost:5000/contact', formData); // replace with your backend API
-      setStatus('Message sent successfully!');
-      setFormData({ name: '', email: '', message: '' });
-    } catch (err) {
-      console.log(err);
-      setStatus('Failed to send message.');
-    }
-  };
+  e.preventDefault();
+  setLoading(true);
+  setFeedback({ type: "", message: "" });
+
+  try {
+    await axios.post("http://localhost:5000/api/contact/sendMessage", formData);
+    setFeedback({ type: "success", message: "Message sent successfully! I’ll get back to you soon." });
+    setFormData({ name: "", email: "", message: "" });
+
+    // Clear success message after 5 seconds
+    setTimeout(() => {
+      setFeedback({ type: "", message: "" });
+    }, 3000); // 5000ms = 5 seconds
+
+  } catch (err) {
+    console.error(err);
+    setFeedback({ type: "error", message: "Error sending message. Please try again later." });
+
+    // Clear error message after 5 seconds as well
+    setTimeout(() => {
+      setFeedback({ type: "", message: "" });
+    }, 5000);
+
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
-    <section id="contact" className="py-20 bg-gray-900 text-white text-center">
-      <h2 className="text-3xl font-bold mb-10 text-cyan-400">Contact Me</h2>
-      <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4 text-left">
-        <input
-          type="text"
-          name="name"
-          placeholder="Your Name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          required
-        />
-        <textarea
-          name="message"
-          placeholder="Your Message"
-          value={formData.message}
-          onChange={handleChange}
-          className="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          rows={5}
-          required
-        />
-        <button
-          type="submit"
-          className="bg-cyan-400 text-black px-6 py-3 rounded-lg font-semibold hover:bg-cyan-500 transition"
+    <section className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center py-16">
+      <h1 className="text-5xl font-bold text-cyan-400 mb-12">Contact Me</h1>
+
+      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 px-6">
+        {/* Left: Contact Info */}
+        <div className="space-y-6 flex flex-col justify-center">
+          <div className="flex items-center gap-4">
+            <FaEnvelope className="text-cyan-400 text-2xl" />
+            <p className="text-lg">{contactInfo.email || "Loading..."}</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <FaPhoneAlt className="text-cyan-400 text-2xl" />
+            <p className="text-lg">{contactInfo.phone || "Loading..."}</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <FaMapMarkerAlt className="text-cyan-400 text-2xl" />
+            <p className="text-lg">{contactInfo.address || "Loading..."}</p>
+          </div>
+          {contactInfo.linkedin && (
+            <div className="flex items-center gap-4">
+              <FaLinkedin className="text-cyan-400 text-2xl" />
+              <a
+                href={contactInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lg hover:text-cyan-300 transition"
+              >
+                LinkedIn Profile
+              </a>
+            </div>
+          )}
+        </div>
+
+        {/* Right: Contact Form */}
+        <form
+          onSubmit={handleSubmit}
+          className="bg-gray-800 p-8 rounded-2xl shadow-lg w-full space-y-6 hover:shadow-cyan-500/30 transition duration-300"
         >
-          Send Message
-        </button>
-        {status && <p className="mt-2 text-green-400">{status}</p>}
-      </form>
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full p-3 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-cyan-400 outline-none"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full p-3 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-cyan-400 outline-none"
+          />
+          <textarea
+            name="message"
+            placeholder="Your Message"
+            rows="5"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            className="w-full p-3 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-cyan-400 outline-none resize-none"
+          ></textarea>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-cyan-500 hover:bg-cyan-600 text-white py-3 px-8 rounded-lg font-semibold transition duration-300 disabled:opacity-50"
+          >
+            {loading ? "Sending..." : "Send Message"}
+          </button>
+        </form>
+      </div>
     </section>
   );
 };
