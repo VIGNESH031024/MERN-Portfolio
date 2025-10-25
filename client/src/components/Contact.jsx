@@ -30,33 +30,19 @@ const Contact = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setFeedback({ type: "", message: "" });
-
-  try {
-    await axios.post("http://localhost:5000/api/contact/sendMessage", formData);
-    setFeedback({ type: "success", message: "Message sent successfully! I’ll get back to you soon." });
-    setFormData({ name: "", email: "", message: "" });
-
-    // Clear success message after 5 seconds
-    setTimeout(() => {
-      setFeedback({ type: "", message: "" });
-    }, 3000); // 5000ms = 5 seconds
-
-  } catch (err) {
-    console.error(err);
-    setFeedback({ type: "error", message: "Error sending message. Please try again later." });
-
-    // Clear error message after 5 seconds as well
-    setTimeout(() => {
-      setFeedback({ type: "", message: "" });
-    }, 5000);
-
-  } finally {
-    setLoading(false);
-  }
-};
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await axios.post("http://localhost:5000/api/contact/sendMessage", formData);
+      alert("Message sent successfully! I’ll get back to you soon.");
+      setFormData({ name: "", email: "", message: "" });
+    } catch (err) {
+      console.error(err);
+      alert("Error sending message. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center py-16">

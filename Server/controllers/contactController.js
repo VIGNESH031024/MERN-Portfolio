@@ -36,7 +36,7 @@ export const sendMessage = async (req, res) => {
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: process.env.TO_EMAIL, // your email
-      subject: `New Message from Portfolio: ${name}`,
+      subject: `Hey VS, New Message from Portfolio: ${name}`,
       text: `
 You have a new message from your portfolio contact form:
 
