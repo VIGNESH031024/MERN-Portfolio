@@ -50,13 +50,11 @@ const Contact = () => {
     setLoading(true);
     try {
       await adminApi.post("/messages", formData);
-
       toast.success("✅ Message sent successfully!", {
         position: "top-right",
         autoClose: 2500,
         hideProgressBar: true,
         closeOnClick: true,
-        pauseOnHover: true,
         draggable: true,
         transition: Slide,
         style: {
@@ -69,7 +67,6 @@ const Contact = () => {
           boxShadow: "0 0 15px rgba(34,211,238,0.3)",
         },
       });
-
       setFormData({ name: "", email: "", message: "" });
     } catch (err) {
       console.error("Error sending message:", err);
@@ -95,55 +92,60 @@ const Contact = () => {
     }
   };
 
-  // Animation variants
+  // Animation Variants (similar to Experience)
   const sectionVariant = {
-    hidden: { opacity: 0, y: 100, scale: 0.95 },
+    hidden: { opacity: 0, y: 80 },
     visible: {
       opacity: 1,
       y: 0,
-      scale: 1,
-      transition: {
-        duration: 1.2,
-        ease: [0.22, 1, 0.36, 1],
-      },
+      transition: { duration: 1.2, ease: "easeOut" },
     },
   };
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1.8 } },
+  const leftVariant = {
+    hidden: { opacity: 0, x: -120 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 1.2, ease: "easeOut", delay: 0.2 },
+    },
   };
 
-  const slideLeft = {
-    hidden: { opacity: 0, x: -60 },
-    visible: { opacity: 1, x: 0, transition: { duration: 1.8 } },
-  };
-
-  const slideRight = {
-    hidden: { opacity: 0, x: 60 },
-    visible: { opacity: 1, x: 0, transition: { duration: 1.8 } },
+  const rightVariant = {
+    hidden: { opacity: 0, x: 120 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 1.2, ease: "easeOut", delay: 0.2 },
+    },
   };
 
   return (
     <motion.section
       id="contact"
-      className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center py-16 overflow-hidden"
+      className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center py-16 px-6 overflow-hidden"
       variants={sectionVariant}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
     >
-      <motion.h1
-        className="text-5xl font-bold text-cyan-400 mb-12"
-        variants={fadeUp}
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="text-4xl font-bold text-cyan-400 mb-12 text-center tracking-wide"
       >
         Contact Me
-      </motion.h1>
+      </motion.h2>
 
-      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 px-6">
+      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12">
+        {/* Left Side - Contact Info */}
         <motion.div
-          className="space-y-6 flex flex-col justify-center"
-          variants={slideLeft}
+          variants={leftVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+          className="space-y-6 flex flex-col justify-center bg-[#111827]/80 p-8 rounded-2xl shadow-lg  transition"
         >
           <div className="flex items-center gap-4">
             <FaEnvelope className="text-cyan-400 text-2xl" />
@@ -189,10 +191,14 @@ const Contact = () => {
           )}
         </motion.div>
 
+        {/* Right Side - Contact Form */}
         <motion.form
           onSubmit={handleSubmit}
-          className="bg-gray-800 p-8 rounded-2xl shadow-lg w-full space-y-6 hover:shadow-cyan-500/30 transition duration-300"
-          variants={slideRight}
+          variants={rightVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.4 }}
+          className="bg-[#111827]/80 p-8 rounded-2xl shadow-lg space-y-6 hover:shadow-cyan-500/30 transition duration-300"
         >
           <input
             type="text"
