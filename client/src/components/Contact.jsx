@@ -95,32 +95,47 @@ const Contact = () => {
     }
   };
 
+  // Animation variants
+  const sectionVariant = {
+    hidden: { opacity: 0, y: 100, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 1.2,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
   const fadeUp = {
     hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+    visible: { opacity: 1, y: 0, transition: { duration: 1.8 } },
   };
 
   const slideLeft = {
     hidden: { opacity: 0, x: -60 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+    visible: { opacity: 1, x: 0, transition: { duration: 1.8 } },
   };
 
   const slideRight = {
     hidden: { opacity: 0, x: 60 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+    visible: { opacity: 1, x: 0, transition: { duration: 1.8 } },
   };
 
   return (
-    <section
+    <motion.section
       id="contact"
       className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center py-16 overflow-hidden"
+      variants={sectionVariant}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
     >
       <motion.h1
         className="text-5xl font-bold text-cyan-400 mb-12"
         variants={fadeUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
       >
         Contact Me
       </motion.h1>
@@ -129,9 +144,6 @@ const Contact = () => {
         <motion.div
           className="space-y-6 flex flex-col justify-center"
           variants={slideLeft}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
         >
           <div className="flex items-center gap-4">
             <FaEnvelope className="text-cyan-400 text-2xl" />
@@ -181,9 +193,6 @@ const Contact = () => {
           onSubmit={handleSubmit}
           className="bg-gray-800 p-8 rounded-2xl shadow-lg w-full space-y-6 hover:shadow-cyan-500/30 transition duration-300"
           variants={slideRight}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
         >
           <input
             type="text"
@@ -225,9 +234,8 @@ const Contact = () => {
         </motion.form>
       </div>
 
-      {/* Toast Container */}
       <ToastContainer newestOnTop />
-    </section>
+    </motion.section>
   );
 };
 
