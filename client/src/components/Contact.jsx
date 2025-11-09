@@ -144,8 +144,8 @@ const Contact = () => {
           variants={leftVariant}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
-          className="space-y-6 flex flex-col justify-center bg-[#111827]/80 p-8 rounded-2xl shadow-lg  transition"
+          viewport={{ once: false, amount: 0.4 }}
+          className="space-y-6 flex flex-col justify-center p-8 rounded-2xl"
         >
           <div className="flex items-center gap-4">
             <FaEnvelope className="text-cyan-400 text-2xl" />
@@ -198,7 +198,7 @@ const Contact = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.4 }}
-          className="bg-[#111827]/80 p-8 rounded-2xl shadow-lg space-y-6 hover:shadow-cyan-500/30 transition duration-300"
+          className="bg-[#111827]/80 p-8 rounded-2xl shadow-lg space-y-6 hover:shadow-cyan-500/30 duration-200"
         >
           <input
             type="text"
