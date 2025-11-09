@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import adminApi from "../api/adminApi"; 
-import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -48,7 +48,7 @@ const ContactForm = () => {
     e.preventDefault();
     try {
      await adminApi.put("/contact", formData);
-      alert("Contact updated successfully!");
+       
        toast.success("✅ Contact updated successfully!", {
         position: "top-center",
         autoClose: 2000,
@@ -66,6 +66,7 @@ const ContactForm = () => {
 
   return (
     <div className="max-w-3xl mx-auto bg-gray-800 p-8 rounded-2xl shadow-lg text-white border border-gray-700">
+       <ToastContainer position="top-center" autoClose={2000} hideProgressBar />
       <h2 className="text-3xl font-semibold text-cyan-400 mb-6 text-center">
         Contact Information
       </h2>
