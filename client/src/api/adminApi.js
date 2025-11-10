@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Use environment variable or default to localhost
 const adminApi = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_BACKEND_URL || "https://vignesh-server.vercel.app/api",
   headers: {
     "Content-Type": "application/json",
   },
