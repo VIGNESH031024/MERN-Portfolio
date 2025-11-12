@@ -1,6 +1,5 @@
-
 import dotenv from "dotenv";
-dotenv.config(); 
+dotenv.config();
 
 import express from "express";
 import cors from "cors";
@@ -15,15 +14,12 @@ import authRoutes from "./routes/authRoutes.js";
 import aboutRoutes from "./routes/aboutRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import resumeRoutes from "./routes/resumeRoutes.js";
-import educationRoutes from "./routes/educationRoutes.js"
+import educationRoutes from "./routes/educationRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
-
-
 
 connectDB();
 
 const app = express();
-
 
 const allowedOrigins = [
   "http://localhost:3000",
@@ -46,8 +42,6 @@ app.use(
 );
 
 // Handle preflight requests
-// Handle preflight requests
-// Handle preflight requests (CORS)
 app.options(/.*/, (req, res) => {
   res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
@@ -56,16 +50,10 @@ app.options(/.*/, (req, res) => {
   res.sendStatus(204);
 });
 
-
-
-// Healthcheck
-app.get("/healthcheck", (req, res) => {
-  res.json({ status: "success" });
-});
-
 app.use(express.json());
 
-
+// Routes
+app.get("/healthcheck", (req, res) => res.json({ status: "success" }));
 app.use("/api/profile", profileRoutes);
 app.use("/api/about", aboutRoutes);
 app.use("/api/skills", skillRoutes);
@@ -75,12 +63,9 @@ app.use("/api/experience", experienceRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/resume", resumeRoutes);
-app.use("/api/education",educationRoutes);
+app.use("/api/education", educationRoutes);
 app.use("/api/messages", messageRoutes);
 
-
+// ✅ Start the server
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
