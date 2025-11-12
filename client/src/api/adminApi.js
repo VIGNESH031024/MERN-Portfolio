@@ -1,11 +1,9 @@
 import axios from "axios";
 
-// Use environment variable or default to localhost
+// Use Vite environment variable or fallback to localhost
 const adminApi = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL || "https://vignesh-server.vercel.app/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: import.meta.env.VITE_API_URL,
+  headers: { "Content-Type": "application/json" }
 });
 
 // Automatically attach token if available

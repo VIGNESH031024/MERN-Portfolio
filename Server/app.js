@@ -1,6 +1,8 @@
 // app.js
 // load .env variables
 import express from "express";
+import cors from "cors";
+
 
 const express = require('express');
 const cors = require('cors');
@@ -8,6 +10,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+
 
 // Example route
 app.get('/', (req, res) => {

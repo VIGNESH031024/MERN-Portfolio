@@ -22,6 +22,26 @@ connectDB();
 const app = express();
 
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://vignesh-vs.vercel.app" // your production frontend
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // allow Postman, server-side
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error("Not allowed by CORS"), false);
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+
+
+app.use(express.json());
+
 // Routes
 app.get("/healthcheck", (req, res) => res.json({ status: "success" }));
 app.use("/api/profile", profileRoutes);
