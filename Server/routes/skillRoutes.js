@@ -9,7 +9,7 @@ const router = express.Router();
 router.get("/", getSkills);
 
 // Admin routes
-router.post("/", protect,upload.single("logo"), addSkill);
+router.post("/",upload.single("logo"), addSkill);
 router.put("/:id",protect, upload.single("logo"), updateSkill);
 router.delete("/:id",protect, deleteSkill);
 
