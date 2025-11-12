@@ -25,7 +25,44 @@ connectDB();
 const app = express();
 
 
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://vignesh-vs.vercel.app"
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
+// Handle preflight requests
+// Handle preflight requests
+// Handle preflight requests (CORS)
+app.options(/.*/, (req, res) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.sendStatus(204);
+});
+
+
+
+// Healthcheck
+app.get("/healthcheck", (req, res) => {
+  res.json({ status: "success" });
+});
+
 app.use(express.json());
 
 
