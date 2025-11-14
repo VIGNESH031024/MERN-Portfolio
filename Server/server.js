@@ -60,9 +60,10 @@ app.use("/api/education", educationRoutes);
 app.use("/api/messages", messageRoutes);
 
 // ✅ Start the server
-const PORT = process.env.PORT || 5000;
+// const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// app.listen(PORT, '0.0.0.0', () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+export default app;
 
