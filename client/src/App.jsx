@@ -17,7 +17,7 @@ import Education from "./components/Education";
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("adminToken");
-  return token ? children : <Navigate to="/console/login" replace />;
+  return token ? children : <Navigate to="/admin/login" replace />;
 };
 
 function App() {
@@ -43,10 +43,10 @@ function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/certifications" element={<CertificationsPage />} />
         <Route path="/resume" element={<Resume />} />
-        <Route path="/console/login" element={<AdminLogin />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
 
         <Route
-          path="/console"
+          path="/admin"
           element={
             <PrivateRoute>
               <AdminDashboard />
