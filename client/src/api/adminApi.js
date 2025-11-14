@@ -1,16 +1,12 @@
 import axios from "axios";
 
-const isProduction = import.meta.env.MODE === "production";
-
-const baseURL = isProduction
-  ? "/api/apiProxy" // Works on Vercel after deploy
-  : "https://mern-portfolio-64fw.onrender.com/api"; // Direct Render backend for local
-
+// Use Vite environment variable or fallback to localhost
 const adminApi = axios.create({
-  baseURL,
-  headers: { "Content-Type": "application/json" },
+  baseURL: import.meta.env.VITE_API_URL,
+  headers: { "Content-Type": "application/json" }
 });
 
+// Automatically attach token if available
 adminApi.interceptors.request.use((config) => {
   const token = localStorage.getItem("adminToken");
   if (token) {

@@ -22,9 +22,12 @@ connectDB();
 const app = express();
 
 
+
+
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://vignesh-vs.vercel.app" // your production frontend
+  "https://vignesh-vs.vercel.app",
+  "https://pd6l65fs-5173.inc1.devtunnels.ms"
 ];
 
 app.use(cors({
