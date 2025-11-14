@@ -85,4 +85,20 @@
   animation: fadeIn 0.4s ease-out forwards;
 }
 
+/* Force galaxy background */
+html, body {
+  background: radial-gradient(ellipse at bottom, #0d1b2a, #000) !important;
+}
+
+/* Force star texture layer */
+html::before, body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+  background-size: 400px 400px;
+  opacity: 0.4;
+  pointer-events: none;
+}
 

@@ -75,11 +75,11 @@ const Experience = () => {
           viewport={{ once: true, amount: 0.4 }}
           className="md:w-[30%] w-full flex justify-center items-center mb-10 md:mb-0"
         >
-          <div className=" hidden md:block w-72 h-72 w-full max-w-[500px] h-[350px] bg-gray-900 rounded-2xl shadow-lg overflow-hidden">
+          <div className=" hidden md:block w-72 h-72 w-full max-w-[500px] h-[350px]  rounded-2xl overflow-hidden">
             <img
               src={work}
               alt="Experience Illustration"
-              className="object-cover transition-transform duration-500 hover:scale-105"
+              className="object-cover transition-transform duration-500 "
             />
           </div>
         </motion.div>

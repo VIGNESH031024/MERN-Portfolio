@@ -15,6 +15,9 @@ const Hero = () => {
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
+  // 👉 NEW: Loading state
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchHero = async () => {
       try {
@@ -22,6 +25,8 @@ const Hero = () => {
         if (res.data) setHeroData(res.data);
       } catch (err) {
         console.error("Error fetching hero data:", err);
+      } finally {
+        setLoading(false); // 👉 API completed
       }
     };
     fetchHero();
@@ -58,6 +63,15 @@ const Hero = () => {
     },
   };
 
+  // 👉 FULL SCREEN LOADING UI
+  if (loading) {
+    return (
+      <section className="min-h-screen flex items-center justify-center bg-black">
+        <div className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+      </section>
+    );
+  }
+
   return (
     <section
       id="hero"
@@ -92,7 +106,7 @@ const Hero = () => {
           variants={textVariant}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.3 }} // 👈 replays every scroll
+          viewport={{ once: false, amount: 0.3 }}
           className="md:flex-1 flex flex-col items-center md:items-start space-y-5"
         >
           <h1 className="text-5xl font-bold text-white whitespace-nowrap">
@@ -107,7 +121,6 @@ const Hero = () => {
 
           {/* Social Icons */}
           <div className="flex gap-5 mt-2">
-            {/* LinkedIn */}
             {heroData.socialLinks?.linkedin && (
               <a
                 href={heroData.socialLinks.linkedin}
@@ -119,7 +132,6 @@ const Hero = () => {
               </a>
             )}
 
-            {/* GitHub */}
             {heroData.socialLinks?.github && (
               <a
                 href={heroData.socialLinks.github}
@@ -131,7 +143,7 @@ const Hero = () => {
               </a>
             )}
 
-            {/* LeetCode - Hardcoded */}
+            {/* LeetCode Icon */}
             <a
               href="https://leetcode.com/u/VIGNESHVS031024/"
               target="_blank"
@@ -139,7 +151,6 @@ const Hero = () => {
               className="text-cyan-400 text-3xl hover:text-cyan-600 transition"
               title="LeetCode Profile"
             >
-              {/* LeetCode SVG */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -168,12 +179,12 @@ const Hero = () => {
           variants={imageVariant}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.3 }} // 👈 replays every scroll
+          viewport={{ once: false, amount: 0.3 }}
           className="md:flex-1 flex justify-center md:justify-end relative"
         >
           <div className="rounded-full shadow-[0_0_40px_10px_rgba(0,255,255,0.3)] p-1">
             <img
-              src={heroData.profileImage || profilePlaceholder}
+              src={heroData.profileImage}
               alt="Profile"
               className="w-72 h-72 md:w-80 md:h-80 rounded-full object-cover border-4 border-cyan-400/30"
             />

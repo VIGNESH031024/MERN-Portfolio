@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import adminApi from "../api/adminApi";
-import image from "../assets/education.png";
+import image from "../assets/education1.png";
 
 const Education = () => {
   const [educationList, setEducationList] = useState([]);
@@ -63,22 +63,24 @@ const Education = () => {
       className="min-h-screen bg-gray-900 text-white flex items-center justify-center px-6 py-16 overflow-hidden"
     >
       <div className="flex flex-col md:flex-row-reverse w-full max-w-6xl md:gap-[160px]">
-        
+
         {/* Right side (Animated Image) */}
         <motion.div
           variants={imageVariant}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={{ once: false, amount: 0.4 }}
           className="md:w-[25%] w-full flex justify-center items-center mb-10 md:mb-0"
         >
-          <div className=" hidden md:block w-72 h-72 bg-gray-800 flex items-center justify-center text-gray-500 rounded-xl shadow-lg">
-            <img
-              src={image}
-              alt="Education Illustration"
-              className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-            />
-          </div>
+         <div className="hidden md:block w-72 h-72 bg-gray-900 flex items-center justify-center text-gray-500 rounded-xl">
+  <img
+    src={image}
+    alt="Education Illustration"
+    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+  />
+</div>
+
+
         </motion.div>
 
         {/* Left side (Animated Education Details) */}
@@ -90,13 +92,13 @@ const Education = () => {
           className="md:w-[55%] w-full"
         >
           <motion.h2
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1 }}
-                    className="text-4xl font-bold text-cyan-400 mb-12 text-center tracking-wide"
-                  >
-                  Education
-                  </motion.h2>
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            className="text-4xl font-bold text-cyan-400 mb-12 text-center tracking-wide"
+          >
+            Education
+          </motion.h2>
 
           <div className="relative pl-6 border-l-2 border-cyan-400/40 space-y-10">
             {educationList.map((edu) => (

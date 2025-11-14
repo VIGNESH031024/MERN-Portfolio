@@ -12,6 +12,7 @@ import CertificationsPage from "./pages/CertificationsPage";
 import Experience from "./components/Experience";
 import Resume from "./components/Resume";
 import Education from "./components/Education";
+import Footer from "./components/Footer";
 
 
 
@@ -36,6 +37,7 @@ function App() {
               <Experience/>
               <Skills />
               <Contact />
+              <Footer/>
             </>
           }
         />
