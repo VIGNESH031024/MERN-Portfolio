@@ -9,25 +9,22 @@ const Skills = () => {
   useEffect(() => {
     adminApi
       .get("/skills")
-      .then((res) => {
-        setSkills(res.data);
-      })
-      .catch((err) => console.log(err));
+      .then((res) => setSkills(res.data))
+      .catch((err) => console.log("Error fetching skills:", err));
   }, []);
 
-  // Auto scroll
+  // Auto scroll logic
   useEffect(() => {
     const el = scrollRef.current;
-    if (!el) return;
+    if (!el || skills.length === 0) return;
 
     let scrollAmount = 0;
-    const speed = 1; // pixels per frame
+    const speed = 0.5; // pixels per frame
     let animationFrame;
 
     const scrollStep = () => {
-      if (!el) return;
       scrollAmount += speed;
-      if (scrollAmount >= el.scrollWidth / 2) scrollAmount = 0; // loop
+      if (scrollAmount >= el.scrollWidth / 2) scrollAmount = 0; // loop seamlessly
       el.scrollLeft = scrollAmount;
       animationFrame = requestAnimationFrame(scrollStep);
     };
@@ -36,6 +33,7 @@ const Skills = () => {
     return () => cancelAnimationFrame(animationFrame);
   }, [skills]);
 
+  // Duplicate skills for smooth looping
   const displayedSkills = [...skills, ...skills];
 
   return (

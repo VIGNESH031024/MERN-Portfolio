@@ -10,31 +10,20 @@ const CertificationsPage = () => {
     adminApi
       .get("/certifications")
       .then((res) => setCertifications(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("Error fetching certifications:", err));
   }, []);
 
-  // Animation Variants
-  const fadeUp = {
-    hidden: { opacity: 0, y: 60 },
-    visible: { opacity: 1, y: 0 },
-  };
-
-  const fadeInScale = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: { opacity: 1, scale: 1 },
-  };
-
-  const fadeRight = {
-    hidden: { opacity: 0, x: 100 },
-    visible: { opacity: 1, x: 0 },
-  };
+  // Animation variants
+  const fadeUp = { hidden: { opacity: 0, y: 60 }, visible: { opacity: 1, y: 0 } };
+  const fadeInScale = { hidden: { opacity: 0, scale: 0.9 }, visible: { opacity: 1, scale: 1 } };
+  const fadeRight = { hidden: { opacity: 0, x: 100 }, visible: { opacity: 1, x: 0 } };
 
   return (
     <section
       id="certifications"
       className="min-h-screen bg-gray-900 text-white pt-28 pb-16 overflow-hidden"
     >
-      {/* Title Animation */}
+      {/* Title */}
       <motion.h1
         className="text-5xl font-bold text-cyan-400 text-center mb-12"
         variants={fadeRight}
@@ -56,16 +45,12 @@ const CertificationsPage = () => {
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
-            transition={{
-              duration: 0.7,
-              delay: index * 0.15,
-              ease: "easeOut",
-            }}
+            transition={{ duration: 0.7, delay: index * 0.15, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.2 }}
           >
             {/* Certificate Image */}
             <motion.div
-              className="relative w-96 h-96 md:w-96 md:h-96 rounded-lg overflow-hidden shadow-lg group"
+              className="relative w-96 h-96 rounded-lg overflow-hidden shadow-lg group"
               variants={fadeInScale}
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.4 }}

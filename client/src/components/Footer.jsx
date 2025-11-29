@@ -12,20 +12,16 @@ const Footer = () => {
       {/* Top gradient line */}
       <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent mb-4" />
 
-      <div className="flex items-center justify-center">
-        <p className="text-sm flex items-center gap-10 tracking-wide">
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-10 text-center">
+        <span className="text-gray-400 text-sm">
+          © {new Date().getFullYear()} All Rights Reserved
+        </span>
 
-          <span className="text-gray-400">
-            © {new Date().getFullYear()} All Rights Reserved
-          </span>
+        <span className="text-cyan-400 hidden sm:inline">•</span>
 
-          <span className="text-cyan-400">•</span>
-
-          <span className="text-gray-400 hover:text-white transition duration-300 cursor-pointer">
-            Designed & Developed by Vignesh VS
-          </span>
-
-        </p>
+        <span className="text-gray-400 text-sm hover:text-white transition duration-300 cursor-pointer">
+          Designed & Developed by Vignesh VS
+        </span>
       </div>
     </motion.footer>
   );

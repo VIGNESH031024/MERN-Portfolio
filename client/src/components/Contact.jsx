@@ -120,129 +120,130 @@ const Contact = () => {
     },
   };
 
-  return (
-    <motion.section
-      id="contact"
-      className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center py-16 px-6 overflow-hidden"
-      variants={sectionVariant}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
+return (
+  <motion.section
+    id="contact"
+    className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center py-16 px-4 sm:px-6 overflow-hidden"
+    variants={sectionVariant}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, amount: 0.3 }}
+  >
+    <motion.h2
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+      className="text-3xl sm:text-4xl font-bold text-cyan-400 mb-12 text-center tracking-wide"
     >
-      <motion.h2
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="text-4xl font-bold text-cyan-400 mb-12 text-center tracking-wide"
+      Contact Me
+    </motion.h2>
+
+    <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
+      {/* Left Side - Contact Info */}
+      <motion.div
+        variants={leftVariant}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.4 }}
+        className="space-y-6 flex flex-col justify-center p-6 sm:p-8 rounded-2xl"
       >
-        Contact Me
-      </motion.h2>
+        <div className="flex items-center gap-3 sm:gap-4">
+          <FaEnvelope className="text-cyan-400 text-xl sm:text-2xl" />
+          <p className="text-sm sm:text-lg">{contactInfo.email || "Loading..."}</p>
+        </div>
 
-      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* Left Side - Contact Info */}
-        <motion.div
-          variants={leftVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false, amount: 0.4 }}
-          className="space-y-6 flex flex-col justify-center p-8 rounded-2xl"
+        <div className="flex items-center gap-3 sm:gap-4">
+          <FaPhoneAlt className="text-cyan-400 text-xl sm:text-2xl" />
+          <p className="text-sm sm:text-lg">{contactInfo.phone || "Loading..."}</p>
+        </div>
+
+        <div className="flex items-center gap-3 sm:gap-4">
+          <FaMapMarkerAlt className="text-cyan-400 text-xl sm:text-2xl" />
+          <p className="text-sm sm:text-lg">{contactInfo.address || "Loading..."}</p>
+        </div>
+
+        {contactInfo.linkedin && (
+          <div className="flex items-center gap-3 sm:gap-4">
+            <FaLinkedin className="text-cyan-400 text-xl sm:text-2xl" />
+            <a
+              href={contactInfo.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm sm:text-lg hover:text-cyan-300 transition"
+            >
+              LinkedIn Profile
+            </a>
+          </div>
+        )}
+
+        {contactInfo.github && (
+          <div className="flex items-center gap-3 sm:gap-4">
+            <FaGithub className="text-cyan-400 text-xl sm:text-2xl" />
+            <a
+              href={contactInfo.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm sm:text-lg hover:text-cyan-300 transition"
+            >
+              GitHub Profile
+            </a>
+          </div>
+        )}
+      </motion.div>
+
+      {/* Right Side - Contact Form */}
+      <motion.form
+        onSubmit={handleSubmit}
+        variants={rightVariant}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.4 }}
+        className="bg-[#111827]/80 p-6 sm:p-8 rounded-2xl shadow-lg space-y-4 sm:space-y-6 hover:shadow-cyan-500/30 duration-200"
+      >
+        <input
+          type="text"
+          name="name"
+          placeholder="Your Name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          className="w-full p-2 sm:p-3 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-cyan-400 outline-none text-sm sm:text-base"
+        />
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Your Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+          className="w-full p-2 sm:p-3 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-cyan-400 outline-none text-sm sm:text-base"
+        />
+
+        <textarea
+          name="message"
+          placeholder="Your Message"
+          rows="4"
+          value={formData.message}
+          onChange={handleChange}
+          required
+          className="w-full p-2 sm:p-3 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-cyan-400 outline-none resize-none text-sm sm:text-base"
+        ></textarea>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-cyan-500 hover:bg-cyan-600 text-white py-2 sm:py-3 px-6 sm:px-8 rounded-lg font-semibold transition duration-300 disabled:opacity-50 w-full sm:w-auto text-sm sm:text-base"
         >
-          <div className="flex items-center gap-4">
-            <FaEnvelope className="text-cyan-400 text-2xl" />
-            <p className="text-lg">{contactInfo.email || "Loading..."}</p>
-          </div>
+          {loading ? "Sending..." : "Send Message"}
+        </button>
+      </motion.form>
+    </div>
 
-          <div className="flex items-center gap-4">
-            <FaPhoneAlt className="text-cyan-400 text-2xl" />
-            <p className="text-lg">{contactInfo.phone || "Loading..."}</p>
-          </div>
+    <ToastContainer newestOnTop />
+  </motion.section>
+);
 
-          <div className="flex items-center gap-4">
-            <FaMapMarkerAlt className="text-cyan-400 text-2xl" />
-            <p className="text-lg">{contactInfo.address || "Loading..."}</p>
-          </div>
-
-          {contactInfo.linkedin && (
-            <div className="flex items-center gap-4">
-              <FaLinkedin className="text-cyan-400 text-2xl" />
-              <a
-                href={contactInfo.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-lg hover:text-cyan-300 transition"
-              >
-                LinkedIn Profile
-              </a>
-            </div>
-          )}
-
-          {contactInfo.github && (
-            <div className="flex items-center gap-4">
-              <FaGithub className="text-cyan-400 text-2xl" />
-              <a
-                href={contactInfo.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-lg hover:text-cyan-300 transition"
-              >
-                GitHub Profile
-              </a>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Right Side - Contact Form */}
-        <motion.form
-          onSubmit={handleSubmit}
-          variants={rightVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false, amount: 0.4 }}
-          className="bg-[#111827]/80 p-8 rounded-2xl shadow-lg space-y-6 hover:shadow-cyan-500/30 duration-200"
-        >
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="w-full p-3 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-cyan-400 outline-none"
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full p-3 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-cyan-400 outline-none"
-          />
-
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            rows="5"
-            value={formData.message}
-            onChange={handleChange}
-            required
-            className="w-full p-3 rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-cyan-400 outline-none resize-none"
-          ></textarea>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-cyan-500 hover:bg-cyan-600 text-white py-3 px-8 rounded-lg font-semibold transition duration-300 disabled:opacity-50"
-          >
-            {loading ? "Sending..." : "Send Message"}
-          </button>
-        </motion.form>
-      </div>
-
-      <ToastContainer newestOnTop />
-    </motion.section>
-  );
 };
 
 export default Contact;
