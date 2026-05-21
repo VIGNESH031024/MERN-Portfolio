@@ -59,7 +59,7 @@ const Skills = () => {
           initial={{ scale: 0.95, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="flex gap-10 overflow-x-scroll whitespace-nowrap no-scrollbar"
+          className="flex gap-10 overflow-x-scroll overflow-y-visible whitespace-nowrap no-scrollbar py-4"
         >
           {displayedSkills.map((skill, idx) => (
             <motion.div
