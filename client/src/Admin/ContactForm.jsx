@@ -65,7 +65,7 @@ const ContactForm = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto bg-gray-800 p-8 rounded-2xl shadow-lg text-white border border-gray-700">
+    <div className="max-w-3xl mx-auto bg-gray-800 p-8 rounded-2xl shadow-2xl text-white border border-cyan-500/40 hover:border-cyan-400 hover:shadow-cyan-500/20 hover:-translate-y-1 transition-all duration-300 overflow-visible">
        <ToastContainer position="top-center" autoClose={2000} hideProgressBar />
       <h2 className="text-3xl font-semibold text-cyan-400 mb-6 text-center">
         Contact Information
