@@ -5,7 +5,6 @@ const Resume = () => {
   const [resumeUrl, setResumeUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [iframeLoading, setIframeLoading] = useState(true);
-  const [iframeError, setIframeError] = useState(false);
 
   useEffect(() => {
     const fetchResume = async () => {
@@ -28,7 +27,7 @@ const Resume = () => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "VIGNESH V S Resume.pdf";
+      a.download = "VIGNESH V S Resume.pdf"; // 👈 Custom filename
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -63,51 +62,35 @@ const Resume = () => {
   )}&embedded=true`;
 
   return (
-    <div className="relative max-w-5xl mx-auto p-4 sm:p-6 text-white">
-      <h2 className="text-3xl sm:text-4xl font-semibold text-cyan-400 mb-6 text-center">
+    <div className="relative max-w-5xl mx-auto p-6 text-white">
+      <h2 className="text-3xl font-semibold text-cyan-400 mb-6 text-center">
         My Resume
       </h2>
 
       {/* Resume container */}
       <div className="relative bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-        {/* Loading Overlay */}
-        {iframeLoading && !iframeError && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/95 sm:bg-gray-900/90 backdrop-blur-sm z-10 transition-opacity duration-500">
+        {iframeLoading && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/90 backdrop-blur-sm z-10 transition-opacity duration-500">
             <div className="w-14 h-14 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
-            <p className="mt-3 text-cyan-300 text-sm sm:text-base">
-              Loading resume preview...
-            </p>
-          </div>
-        )}
-
-        {/* Error Overlay */}
-        {iframeError && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-red-900/90 backdrop-blur-sm z-10 p-6 rounded-xl text-center">
-            <p className="text-red-400 font-semibold text-lg sm:text-xl">
-              ❌ Failed to load the resume. Please try downloading.
-            </p>
+            <p className="mt-3 text-cyan-300">Loading resume preview...</p>
           </div>
         )}
 
         <iframe
           src={googleViewerUrl}
           title="Resume Viewer"
-          className={`w-full h-[70vh] sm:h-[75vh] md:h-[85vh] border-none transition-opacity duration-700 ${
-            iframeLoading || iframeError ? "opacity-0" : "opacity-100"
+          className={`w-full h-[85vh] border-none transition-opacity duration-700 ${
+            iframeLoading ? "opacity-0" : "opacity-100"
           }`}
           allow="autoplay"
           onLoad={() => setIframeLoading(false)}
-          onError={() => {
-            setIframeLoading(false);
-            setIframeError(true);
-          }}
         ></iframe>
       </div>
 
       <div className="text-center mt-6">
         <button
           onClick={handleDownload}
-          className="bg-cyan-500 text-gray-900 font-semibold px-5 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-cyan-400 transition-all duration-300"
+          className="bg-cyan-500 text-gray-900 font-semibold px-6 py-2 rounded-lg hover:bg-cyan-400 transition-all"
         >
           Download Resume (PDF)
         </button>

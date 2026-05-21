@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 
 const Header = () => {
@@ -9,6 +9,7 @@ const Header = () => {
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
+    // Trigger floating animation after component mounts
     setTimeout(() => setAnimate(true), 100);
   }, []);
 
@@ -24,9 +25,22 @@ const Header = () => {
     } else scrollToSection("hero");
     setMenuOpen(false);
   };
-  const handleProjectsClick = () => { navigate("/projects"); setMenuOpen(false); };
-  const handleCertificationsClick = () => { navigate("/certifications"); setMenuOpen(false); };
-  const handleResume = () => { navigate("/resume"); setMenuOpen(false); };
+
+  const handleProjectsClick = () => {
+    navigate("/projects");
+    setMenuOpen(false);
+  };
+
+  const handleCertificationsClick = () => {
+    navigate("/certifications");
+    setMenuOpen(false);
+  };
+
+  const handleResume = () => {
+    navigate("/resume");
+    setMenuOpen(false);
+  };
+
   const handleContactClick = () => {
     if (location.pathname !== "/") {
       navigate("/");
@@ -45,8 +59,8 @@ const Header = () => {
 
   return (
     <header className="fixed w-full backdrop-blur-md bg-gray-900/70 border-b border-gray-800 text-white shadow-lg z-50 transition-all duration-300 overflow-hidden">
-      <div className="max-w-6xl mx-auto flex justify-between items-center px-4 sm:px-6 py-3">
-        {/* Logo */}
+      <div className="max-w-6xl mx-auto flex justify-between items-center px-6 py-3">
+        {/* Logo with floating animation */}
         <div
           onClick={() => navigate("/")}
           className={`text-3xl font-bold text-cyan-400 cursor-pointer tracking-wider hover:scale-110 transition-transform duration-500 ${
@@ -58,7 +72,7 @@ const Header = () => {
 
         {/* Desktop Nav */}
         <nav
-          className={`hidden md:flex gap-6 sm:gap-8 text-lg transition-all duration-700 ${
+          className={`hidden md:flex gap-8 text-lg transition-all duration-700 ${
             animate ? "animate-floatDownDelay" : "opacity-0 -translate-y-6"
           }`}
         >
@@ -73,6 +87,7 @@ const Header = () => {
                 }`}
               >
                 {link.name}
+                {/* Underline animation */}
                 <span
                   className={`absolute left-0 -bottom-1 h-[2px] w-full bg-cyan-400 scale-x-0 transition-transform duration-300 origin-right ${
                     isActive ? "scale-x-100 origin-left" : "hover:scale-x-100 origin-left"
@@ -94,15 +109,15 @@ const Header = () => {
 
       {/* Mobile Dropdown */}
       {menuOpen && (
-        <div className="md:hidden bg-gray-900/95 backdrop-blur-md border-t border-gray-800 px-4 sm:px-6 py-6 flex flex-col gap-4 text-lg animate-fadeIn">
+        <div className="md:hidden bg-gray-900/95 backdrop-blur-md border-t border-gray-800 px-6 py-4 flex flex-col gap-4 text-lg animate-fadeIn">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.path;
             return (
               <span
                 key={link.name}
                 onClick={link.onClick}
-                className={`cursor-pointer font-medium py-2 px-2 rounded-lg transition-colors ${
-                  isActive ? "text-cyan-400 bg-gray-800" : "text-gray-200 hover:text-cyan-400 hover:bg-gray-800"
+                className={`cursor-pointer font-medium transition-all ${
+                  isActive ? "text-cyan-400" : "text-gray-200 hover:text-cyan-400"
                 }`}
               >
                 {link.name}
