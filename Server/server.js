@@ -30,16 +30,17 @@ const app = express();
 //   "https://pd6l65fs-5173.inc1.devtunnels.ms"
 // ];
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://vignesh-vs.vercel.app",
-    ],
-    credentials: true,
-  })
-);
-
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:5173",
+//       "https://vignesh-vs.vercel.app",
+//     ],
+//     credentials: true,
+//   })
+// );
+app.use(cors());
+app.use(express.json());
 app.use(express.json());
 
 
