@@ -21,34 +21,22 @@ connectDB();
 
 const app = express();
 
-
-
-
-// const allowedOrigins = [
-//   "http://localhost:5173",
-//   "https://your-actual-frontend.vercel.app",
-//   "https://pd6l65fs-5173.inc1.devtunnels.ms"
-// ];
-
-// app.use(
-//   cors({
-//     origin: [
-//       "http://localhost:5173",
-//       "https://vignesh-vs.vercel.app",
-//     ],
-//     credentials: true,
-//   })
-// );
-app.use(cors());
-app.use(express.json());
-app.use(express.json());
-
-
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://vignesh-vs.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
-// Routes
-app.get("/healthcheck", (req, res) => res.json({ status: "success" }));
+app.get("/healthcheck", (req, res) =>
+  res.json({ status: "success" })
+);
+
 app.use("/api/profile", profileRoutes);
 app.use("/api/about", aboutRoutes);
 app.use("/api/skills", skillRoutes);
@@ -61,11 +49,4 @@ app.use("/api/resume", resumeRoutes);
 app.use("/api/education", educationRoutes);
 app.use("/api/messages", messageRoutes);
 
-// ✅ Start the server
-// const PORT = process.env.PORT || 5000;
-
-// app.listen(PORT, '0.0.0.0', () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
 export default app;
-
