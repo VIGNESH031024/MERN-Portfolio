@@ -198,7 +198,10 @@ const Contact = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.4 }}
-          className="bg-[#111827]/80 p-8 rounded-2xl shadow-lg space-y-6 hover:shadow-cyan-500/30 duration-200"
+          className="bg-[#111827]/80 p-8 rounded-2xl shadow-lg space-y-6 
+hover:shadow-[0_0_35px_rgba(34,211,238,0.45)] 
+hover:-translate-y-2 
+transition-all duration-300"
         >
           <input
             type="text"

@@ -8,19 +8,25 @@ const Experience = () => {
   const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchExperience = async () => {
-      try {
-        const res = await adminApi.get("/experience");
-        setExperiences(res.data);
-      } catch (err) {
-        console.error("Error fetching experiences:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchExperience();
-  }, []);
+ useEffect(() => {
+  const fetchExperience = async () => {
+    try {
+      const res = await adminApi.get("/experience");
+
+      const sortedExperiences = res.data.sort(
+        (a, b) => new Date(b.from) - new Date(a.from)
+      );
+
+      setExperiences(sortedExperiences);
+    } catch (err) {
+      console.error("Error fetching experiences:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchExperience();
+}, []);
 
   if (loading) {
     return (
