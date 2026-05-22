@@ -39,7 +39,7 @@ const Skills = () => {
   const displayedSkills = [...skills, ...skills];
 
   return (
-    <section id="skills" className="py-20 bg-gray-900 text-white overflow-hidden">
+    <section id="skills" className="py-20 bg-gray-900 text-white overflow-visible">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -61,7 +61,7 @@ const Skills = () => {
           initial={{ scale: 0.95, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="flex gap-10 overflow-x-scroll whitespace-nowrap no-scrollbar"
+          className="flex gap-10 overflow-x-scroll overflow-y-visible whitespace-nowrap no-scrollbar py-4"
         >
           {displayedSkills.map((skill, idx) => (
             <motion.div
